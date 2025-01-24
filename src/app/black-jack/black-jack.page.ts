@@ -27,6 +27,7 @@ export class BlackJackPage implements OnInit {
   public apuestas: number = this.dinero
 
   public apuesta: boolean = true
+  public pri_empezar: boolean = true
   public baraja_principal: any = []
 
   public mano_croupier: any = [
@@ -58,12 +59,12 @@ export class BlackJackPage implements OnInit {
 
 
   empezar() {
-    
+    console.log(`repartiendo primeras manos`)
     this.repartirCarta(this.mano_croupier)
 
     this.repartirCarta(this.mano_jugador)
     this.repartirCarta(this.mano_jugador)
-    
+    this.pri_empezar = false
   }
 
   repartirCarta(baraja_destino: any[]){
@@ -75,13 +76,14 @@ baraja_destino.push(this.baraja_principal[random])
 // 2. eliminar de baraja principal
 this.baraja_principal.splice(random, 1);
 
-console.log(`mano de ${baraja_destino}`)
+console.log(this.mano_jugador)
 
   }
 
 
   pedir(){
-    
+    this.repartirCarta(this.mano_jugador)
+    console.log(this.mano_jugador)
 
 
   }
