@@ -28,6 +28,10 @@ export class BlackJackPage implements OnInit {
 
   public apuesta: boolean = true
   public pri_empezar: boolean = true
+  public parar_de_pedir: boolean = true
+
+  public suma_mano_jugador: number = 0
+
   public baraja_principal: any = []
 
   public mano_croupier: any = [
@@ -82,10 +86,30 @@ console.log(this.mano_jugador)
 
 
   pedir(){
+    if(this.mano_jugador.length < 5){
     this.repartirCarta(this.mano_jugador)
     console.log(this.mano_jugador)
 
-
+    console.log(this.mano_jugador.length)
   }
+  }
+
+
+  parar(){
+// Sumar valor de la mano Jugador
+        for(let carta of this.mano_jugador){
+          this.suma_mano_jugador = Number(carta.valor) + Number(this.suma_mano_jugador)
+        }
+
+        console.log(this.suma_mano_jugador)
+      
+    if(this.mano_jugador <= 21){
+    this.repartirCarta(this.mano_croupier)
+
+      console.log("pierde jugador")
+      }
+      this.parar_de_pedir = false
+    }   
+  
 
 }

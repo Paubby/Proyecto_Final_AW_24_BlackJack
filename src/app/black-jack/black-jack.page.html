@@ -9,12 +9,17 @@
         <ion-col>
           <ion-button [disabled]="!pri_empezar" color="danger" id="Empezar" (click)="empezar()">Empezar</ion-button>
 
-          <ion-button class="decision" color="danger">parar</ion-button>
+          <ion-button [disabled]="!parar_de_pedir" (click)="parar()" class="decision" color="danger">parar</ion-button>
 
         </ion-col>
 
         <ion-col class="stand">
+          @if(parar_de_pedir == true){
           <img id="revesrso" src="../../assets/Baraja/reverso_carta.png" alt="">
+            }
+          @if(parar_de_pedir == false){
+            <img src="../../assets/Baraja/{{mano_jugador[1].img}}" alt="">
+            }
         </ion-col>
 
         <ion-col>
@@ -22,7 +27,9 @@
         </ion-col>
 
         <ion-col class="stand">
-          
+          @if(mano_croupier.length >= 1){
+            <img src="../../assets/Baraja/{{mano_jugador[0].img}}" alt="">
+            }
         </ion-col>
 
         <ion-col>
