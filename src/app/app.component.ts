@@ -14,7 +14,7 @@ import { IonicModule } from '@ionic/angular';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Log In', url: '/folder/inbox', icon: 'accessibility' },
+    { title: 'Log In', url: '/login', icon: 'accessibility' },
     { title: 'Inicio', url: '/home', icon: 'card' },
     { title: 'Black Jack', url: '/black-jack', icon: 'cash' },
     { title: 'Ranking', url: '/ranking', icon: 'bar-chart' },

@@ -18,7 +18,7 @@
           <img id="revesrso" src="../../assets/Baraja/reverso_carta.png" alt="">
             }
           @if(parar_de_pedir == false){
-            <img src="../../assets/Baraja/{{mano_jugador[1].img}}" alt="">
+            <img src="../../assets/Baraja/{{mano_croupier[1].img}}" alt="">
             }
         </ion-col>
 
@@ -28,7 +28,7 @@
 
         <ion-col class="stand">
           @if(mano_croupier.length >= 1){
-            <img src="../../assets/Baraja/{{mano_jugador[0].img}}" alt="">
+            <img src="../../assets/Baraja/{{mano_croupier[0].img}}" alt="">
             }
         </ion-col>
 
@@ -37,7 +37,9 @@
         </ion-col>
 
         <ion-col class="stand">
-          
+          @if(mano_croupier.length >= 3){
+            <img src="../../assets/Baraja/{{mano_croupier[2].img}}" alt="">
+            }
         </ion-col>
 
         <ion-col>

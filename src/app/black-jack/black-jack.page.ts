@@ -31,6 +31,7 @@ export class BlackJackPage implements OnInit {
   public parar_de_pedir: boolean = true
 
   public suma_mano_jugador: number = 0
+  public suma_mano_croupier: number = 0
 
   public baraja_principal: any = []
 
@@ -72,9 +73,11 @@ export class BlackJackPage implements OnInit {
   }
 
   repartirCarta(baraja_destino: any[]){
+    console.log("repartir carta")
     let random = Math.floor(Math.random() * this.baraja_principal.length)
     console.log(random)
 // 1. añadir a la baraja destino
+console.log("carta repartida")
 console.log(this.baraja_principal[random])
 baraja_destino.push(this.baraja_principal[random])
 // 2. eliminar de baraja principal
@@ -102,14 +105,39 @@ console.log(this.mano_jugador)
         }
 
         console.log(this.suma_mano_jugador)
-      
+        this.juegoCroupier()
+
     if(this.mano_jugador <= 21){
     this.repartirCarta(this.mano_croupier)
 
       console.log("pierde jugador")
+      console.log(this.mano_croupier.length)
       }
       this.parar_de_pedir = false
+
     }   
   
+    juegoCroupier(){
+// Sumar valor de la mano Croupier
+console.log("juego croupier")
+      this.suma_mano_croupier = 0
+
+      for(let carta of this.mano_croupier){
+        this.suma_mano_croupier = Number(carta.valor) + Number(this.suma_mano_croupier)
+      }
+      console.log("mano croupier 1")
+      console.log(this.suma_mano_croupier)
+      if(this.suma_mano_croupier < 17){
+        this.repartirCarta(this.mano_croupier)
+        this.suma_mano_croupier = 0
+        for(let carta of this.mano_croupier){
+          this.suma_mano_croupier = Number(carta.valor) + Number(this.suma_mano_croupier)
+        }
+      }
+      console.log("mano croupier 2")
+      console.log(this.suma_mano_croupier)
+      console.log(this.mano_croupier)
+    }
+    
 
 }

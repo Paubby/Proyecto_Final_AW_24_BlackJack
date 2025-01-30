@@ -6,6 +6,8 @@ import { HttpClient } from "@angular/common/http"
 import { IonicModule } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
+// import { response } from 'express';
 
 
 @Component({
@@ -19,14 +21,55 @@ export class HomePage implements OnInit {
 
 
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, public auth: AuthService) { }
+
+public user: any;
+
 
   ngOnInit() {
+    // Cargar info desde auth
+    this.auth.user$.subscribe((data) =>{
+      this.user = data
+      console.log(this.user)
+        // Ahora hacer un INSERT INTO a la base de datos
+      this.loadUser()
+
+      this.createUser()
+
+    })
+    
+    
   }
 
-  irAlJuego(){
-    this.router.navigate(['/black-jack']);
+
+  loadUser(){
+    this.http.get(`http://localhost:3000/jugador/${this.user.email}`).subscribe((response: any) => {
+      console.log(response)
+      console.log(this.user.email)
+      console.log(this.user.name)
+      if(response == "El registro NO ha sido encontrado"){
+        this.createUser()
+      }
+      
+    });
   }
 
+  createUser() {
+
+    let new_user = {
+      email: this.user.email,
+      name: this.user.name
+    }
+
+    this.http.post('http://localhost:3000/crear', new_user).subscribe((response) => {
+      console.log(response);
+      console.log(new_user)
+    });
+  
+
+}
+irAlJuego(){
+  this.router.navigate(['/black-jack']);
+};
 
 }
