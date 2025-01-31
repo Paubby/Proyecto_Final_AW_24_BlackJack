@@ -47,8 +47,8 @@ export let baraja = [
       {nombre:"3", palo:"trebol", valor:"3", img:"3_trebol.jpg"},
       {nombre:"3", palo:"corazones", valor:"3", img:"3_corazones.jpg"},
       {nombre:"3", palo:"diamantes", valor:"3", img:"3_diamantes.jpg"},
-      {nombre:"2", palo:"picas", valor:"2", img:"3_picas.jpg"},
-      {nombre:"2", palo:"trebol", valor:"2", img:"3_trebol.jpg"},
-      {nombre:"2", palo:"corazones", valor:"2", img:"3_corazones.jpg"},
-      {nombre:"2", palo:"diamantes", valor:"2", img:"3_diamantes.jpg"},
+      {nombre:"2", palo:"picas", valor:"2", img:"2_picas.jpg"},
+      {nombre:"2", palo:"trebol", valor:"2", img:"2_trebol.jpg"},
+      {nombre:"2", palo:"corazones", valor:"2", img:"2_corazones.jpg"},
+      {nombre:"2", palo:"diamantes", valor:"2", img:"2_diamantes.jpg"},
     ]

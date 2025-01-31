@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 export const routes: Routes = [
   {
@@ -8,15 +9,18 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    loadComponent: () => import('./home/home.page').then( m => m.HomePage)
+    loadComponent: () => import('./home/home.page').then( m => m.HomePage),
+    canActivate: [AuthGuard]
   },
   {
     path: 'black-jack',
-    loadComponent: () => import('./black-jack/black-jack.page').then( m => m.BlackJackPage)
+    loadComponent: () => import('./black-jack/black-jack.page').then( m => m.BlackJackPage),
+    canActivate: [AuthGuard]
   },
   {
     path: 'ranking',
-    loadComponent: () => import('./ranking/ranking.page').then( m => m.RankingPage)
+    loadComponent: () => import('./ranking/ranking.page').then( m => m.RankingPage),
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',

@@ -66,6 +66,7 @@ export class BlackJackPage implements OnInit {
   empezar() {
     console.log(`repartiendo primeras manos`)
     this.repartirCarta(this.mano_croupier)
+    this.repartirCarta(this.mano_croupier)
 
     this.repartirCarta(this.mano_jugador)
     this.repartirCarta(this.mano_jugador)
@@ -99,44 +100,53 @@ console.log(this.mano_jugador)
 
 
   parar(){
-// Sumar valor de la mano Jugador
-        for(let carta of this.mano_jugador){
-          this.suma_mano_jugador = Number(carta.valor) + Number(this.suma_mano_jugador)
-        }
+    // Mostrar la carta tapada
+    this.parar_de_pedir = false
+    // Sumar valor de la mano Jugador
+    this.suma_mano_jugador = this.suamrMano(this.mano_jugador)
+        
+    console.log("suma de la mano de jugador = ", this.suma_mano_jugador)
 
-        console.log(this.suma_mano_jugador)
+    if(this.suma_mano_jugador < 21){
+      //this.repartirCarta(this.mano_croupier)
         this.juegoCroupier()
-
-    if(this.mano_jugador <= 21){
-    this.repartirCarta(this.mano_croupier)
-
-      console.log("pierde jugador")
-      console.log(this.mano_croupier.length)
+      
+      } else if (this.suma_mano_jugador > this.suma_mano_croupier){
+        this.juegoCroupier()
+      } else{
+        console.log("pierde jugador")
       }
-      this.parar_de_pedir = false
+      
 
     }   
   
     juegoCroupier(){
-// Sumar valor de la mano Croupier
-console.log("juego croupier")
-      this.suma_mano_croupier = 0
+      
+      // Sumar valor de la mano Croupier
+      console.log("juego croupier")
+      this.suma_mano_croupier = this.suamrMano(this.mano_croupier)
+      
+      console.log("mano croupier 1", this.suma_mano_croupier)
 
-      for(let carta of this.mano_croupier){
-        this.suma_mano_croupier = Number(carta.valor) + Number(this.suma_mano_croupier)
-      }
-      console.log("mano croupier 1")
-      console.log(this.suma_mano_croupier)
+      // EL PROBLEMA NO ES EL "IF" SINO QUE NO FUNCIONA LA LOGICA DE DENTRO
       if(this.suma_mano_croupier < 17){
+        console.log("antes de repartir", this.mano_croupier)
         this.repartirCarta(this.mano_croupier)
-        this.suma_mano_croupier = 0
-        for(let carta of this.mano_croupier){
-          this.suma_mano_croupier = Number(carta.valor) + Number(this.suma_mano_croupier)
-        }
+        console.log("después de repartir", this.mano_croupier)
+        this.suma_mano_croupier = this.suamrMano(this.mano_croupier)
+        
       }
       console.log("mano croupier 2")
       console.log(this.suma_mano_croupier)
-      console.log(this.mano_croupier)
+      console.log("mano croupier", this.mano_croupier)
+    }
+
+    suamrMano(mano: any){
+      let suma = 0
+      for(let carta of mano){
+        suma = Number(carta.valor) + Number(suma)
+      }
+      return suma
     }
     
 
