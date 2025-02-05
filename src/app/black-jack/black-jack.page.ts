@@ -29,6 +29,8 @@ export class BlackJackPage implements OnInit {
   public apuesta: boolean = true
   public pri_empezar: boolean = true
   public parar_de_pedir: boolean = true
+  public has_perdido: boolean = false
+  public has_ganado: boolean = false
 
   public suma_mano_jugador: number = 0
   public suma_mano_croupier: number = 0
@@ -76,7 +78,6 @@ export class BlackJackPage implements OnInit {
   repartirCarta(baraja_destino: any[]){
     console.log("repartir carta")
     let random = Math.floor(Math.random() * this.baraja_principal.length)
-    console.log(random)
 // 1. añadir a la baraja destino
 console.log("carta repartida")
 console.log(this.baraja_principal[random])
@@ -84,7 +85,7 @@ baraja_destino.push(this.baraja_principal[random])
 // 2. eliminar de baraja principal
 this.baraja_principal.splice(random, 1);
 
-console.log(this.mano_jugador)
+console.log("Baraja jugador", this.mano_jugador)
 
   }
 
@@ -107,14 +108,12 @@ console.log(this.mano_jugador)
         
     console.log("suma de la mano de jugador = ", this.suma_mano_jugador)
 
-    if(this.suma_mano_jugador < 21){
+    if(this.suma_mano_jugador <= 21){
       //this.repartirCarta(this.mano_croupier)
         this.juegoCroupier()
-      
-      } else if (this.suma_mano_jugador > this.suma_mano_croupier){
-        this.juegoCroupier()
-      } else{
+      } else if (this.suma_mano_jugador > 21){
         console.log("pierde jugador")
+        this.has_perdido = true
       }
       
 
@@ -128,14 +127,34 @@ console.log(this.mano_jugador)
       
       console.log("mano croupier 1", this.suma_mano_croupier)
 
-      // EL PROBLEMA NO ES EL "IF" SINO QUE NO FUNCIONA LA LOGICA DE DENTRO
+      // Aquí si el número de las cartas de croupier es menos de 17, se envia otra carta a la array del croupier
       if(this.suma_mano_croupier < 17){
         console.log("antes de repartir", this.mano_croupier)
         this.repartirCarta(this.mano_croupier)
         console.log("después de repartir", this.mano_croupier)
         this.suma_mano_croupier = this.suamrMano(this.mano_croupier)
-        
       }
+
+      console.log(`suma mano JUGADOR ${this.suma_mano_jugador}`)
+      console.log(`suma mano CROUPIER ${this.suma_mano_croupier}`)
+
+
+      if (this.suma_mano_croupier > 21){
+        console.log("Gana Jugador")
+        this.has_ganado = true
+      } else if(this.suma_mano_jugador > this.suma_mano_croupier){
+        console.log("Gana Jugador")
+        this.has_ganado = true
+      } else if (this.suma_mano_jugador < this.suma_mano_croupier){
+        console.log("Pierde Jugador")
+        this.has_perdido = true
+      }  else if (this.suma_mano_jugador == this.suma_mano_croupier){
+        console.log("Habeis empatado, Pierde Jugador")
+        this.has_perdido = true
+      } 
+
+
+
       console.log("mano croupier 2")
       console.log(this.suma_mano_croupier)
       console.log("mano croupier", this.mano_croupier)

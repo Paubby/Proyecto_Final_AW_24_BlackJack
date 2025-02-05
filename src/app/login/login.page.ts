@@ -13,7 +13,7 @@ import { IonicModule } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  constructor(@Inject(DOCUMENT) public document: Document, private auth: AuthService) { }
+  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) { }
 
   ngOnInit() {
   }

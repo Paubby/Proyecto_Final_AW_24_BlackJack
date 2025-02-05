@@ -1,7 +1,18 @@
 
 <ion-content [fullscreen]="true">
 
+  
+<ion-grid id="grid_final">
 
+    @if(has_perdido == true){
+    <h1 id="has_perdido">HAS PERDIDO GAY</h1>
+    }
+
+    @if(has_ganado == true){
+      <h1 id="has_ganado">HAS GANADO HETERO</h1>
+      }
+      @if(has_ganado == false){
+      @if(has_perdido == false){
   <ion-grid>
 
       <ion-row>
@@ -82,11 +93,12 @@
     </ion-col>
 
     <ion-row>
-
+        @if(pri_empezar == false){
       <ion-col>
         <img id="paquete" (click)="pedir()" src="../../assets/Baraja/baraja_para_pedir.png" alt="">
       </ion-col>
-
+          }
+          
     <ion-col>
       <ion-input [(ngModel)]="dinero" label="Cuanto apuestas" type="number"></ion-input> 
     </ion-col>
@@ -163,6 +175,11 @@
       </ion-col>
 
     </ion-row>
+
+</ion-grid>
+}
+}
+
 
 </ion-grid>
 
