@@ -1,6 +1,6 @@
 .stand {
     margin-top: 1.5rem;
-    background-color: grey;
+    background-color: 121212;
     height: 13rem;
 }
 #revesrso{
@@ -13,6 +13,10 @@
     src: url(/../trabajo-final/src/assets/Wanted\ M54.ttf);
     font-size: 4rem;
     color: green;
+    position:absolute;
+    margin-top: 33%;
+    margin-left: 35%;
+    z-index: 1000;
 }
 
 #has_perdido {
@@ -20,6 +24,10 @@
     src: url(/../trabajo-final/src/assets/Wanted\ M54.ttf);
     font-size: 4rem;
     color: red;
+    position:absolute;
+    margin-top: 33%;
+    margin-left: 35%;
+    z-index: 1000;
 }
 
 h1 {
@@ -71,4 +79,5 @@ ion-input {
 #paquete {
     width: 40%;
     height: 90%;
+    margin-right: auto;
 }

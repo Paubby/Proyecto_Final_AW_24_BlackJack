@@ -32,8 +32,12 @@ export class BlackJackPage implements OnInit {
   public has_perdido: boolean = false
   public has_ganado: boolean = false
 
+  public el_jugador_pasado: boolean = false
+  public el_croupier_pasado: boolean = false
+
   public suma_mano_jugador: number = 0
   public suma_mano_croupier: number = 0
+
 
   public baraja_principal: any = []
 
@@ -96,6 +100,7 @@ console.log("Baraja jugador", this.mano_jugador)
     console.log(this.mano_jugador)
 
     console.log(this.mano_jugador.length)
+    // this.suamrMano(this.mano_jugador, "jugador", false)
   }
   }
 
@@ -104,7 +109,8 @@ console.log("Baraja jugador", this.mano_jugador)
     // Mostrar la carta tapada
     this.parar_de_pedir = false
     // Sumar valor de la mano Jugador
-    this.suma_mano_jugador = this.suamrMano(this.mano_jugador)
+    console.log(`el valor de la mano jugador antes de parar ${this.suma_mano_jugador}`)
+    this.suma_mano_jugador = this.suamrMano(this.mano_jugador, "jugador", false)
         
     console.log("suma de la mano de jugador = ", this.suma_mano_jugador)
 
@@ -123,20 +129,22 @@ console.log("Baraja jugador", this.mano_jugador)
       
       // Sumar valor de la mano Croupier
       console.log("juego croupier")
-      this.suma_mano_croupier = this.suamrMano(this.mano_croupier)
-      
+      this.suma_mano_croupier = this.suamrMano(this.mano_croupier, "croupier", false)
+
       console.log("mano croupier 1", this.suma_mano_croupier)
 
       // Aquí si el número de las cartas de croupier es menos de 17, se envia otra carta a la array del croupier
-      if(this.suma_mano_croupier < 17){
+      // Aquí va un while
+      if (this.suma_mano_croupier < 17){
+        console.log("SE ESTA EJECUTANDO EL WHILE DE REPARTIR CROUPIER")
         console.log("antes de repartir", this.mano_croupier)
         this.repartirCarta(this.mano_croupier)
         console.log("después de repartir", this.mano_croupier)
-        this.suma_mano_croupier = this.suamrMano(this.mano_croupier)
+        this.suma_mano_croupier = this.suamrMano(this.mano_croupier, "croupier", false)
       }
 
-      console.log(`suma mano JUGADOR ${this.suma_mano_jugador}`)
-      console.log(`suma mano CROUPIER ${this.suma_mano_croupier}`)
+      console.log(`suma mano JUGADOR = ${this.suma_mano_jugador}`)
+      console.log(`suma mano CROUPIER = ${this.suma_mano_croupier}`)
 
 
       if (this.suma_mano_croupier > 21){
@@ -153,20 +161,43 @@ console.log("Baraja jugador", this.mano_jugador)
         this.has_perdido = true
       } 
 
-
-
       console.log("mano croupier 2")
       console.log(this.suma_mano_croupier)
       console.log("mano croupier", this.mano_croupier)
     }
 
-    suamrMano(mano: any){
+    suamrMano(mano: any, turno: string, repeticion: boolean): any{
       let suma = 0
+      let as:boolean = false
       for(let carta of mano){
-        suma = Number(carta.valor) + Number(suma)
+        as = carta.valor == 11 ? true : false;
+        if(this.el_croupier_pasado == true || this.el_jugador_pasado == true){
+          if(carta.valor == 11){
+            suma = Number(1) + Number(suma)
+            console.log("la suma con el as recalculado a = ", suma)
+          } else {
+            suma = Number(carta.valor) + Number(suma)
+            console.log("la suma es SIN as", suma)
+          }
+        } else {
+          suma = Number(carta.valor) + Number(suma)
+          console.log("suma normal = ", suma)
+        }
+        console.log("valor carta", carta.valor)
       }
-      return suma
+
+      if(suma > 21 && as == true && repeticion == false){
+       if(turno == "croupier") {
+        this.el_croupier_pasado = true
+        return this.suamrMano(this.mano_croupier, "croupier", true)
+       } else {
+        this.el_jugador_pasado = true
+        return this.suamrMano(this.mano_jugador, "jugador", true)
+       }
+      } else{
+        console.log(`FIN SUMA MANO de ${turno} valor mano ${suma} la repeticion esta ${repeticion} VARIABLE as = ${as}`)
+        return suma
+      }
     }
-    
 
 }
