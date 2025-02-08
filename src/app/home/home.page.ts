@@ -43,7 +43,7 @@ public user: any;
 
 
   loadUser(){
-    this.http.get(`http://localhost:3000/jugador/${this.user.email}`).subscribe((response: any) => {
+    this.http.get(`http://localhost:3000/jugadores/${this.user.email}`).subscribe((response: any) => {
       console.log(response)
       console.log(this.user.email)
       console.log(this.user.name)

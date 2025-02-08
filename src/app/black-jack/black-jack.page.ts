@@ -6,6 +6,10 @@ import { IonicModule } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { HttpClient } from "@angular/common/http"
+import { AuthService } from '@auth0/auth0-angular';
+
+
 
 import {baraja} from '../../assets/baraja';
 
@@ -38,6 +42,7 @@ export class BlackJackPage implements OnInit {
   public suma_mano_jugador: number = 0
   public suma_mano_croupier: number = 0
 
+  public user: any
 
   public baraja_principal: any = []
 
@@ -47,14 +52,37 @@ export class BlackJackPage implements OnInit {
   public mano_jugador: any = [
   ]
 
-  constructor(private route: ActivatedRoute,  private router: Router) { }
+  public usuario_cargado: any
+
+
+  constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public auth: AuthService) { }
 
   ngOnInit() {
     this.dinero = this.route.snapshot.params
     console.log(this.dinero)
     console.log(baraja)
     this.baraja_principal = baraja
+
+  // Cargar info desde auth
+  this.auth.user$.subscribe((data) =>{
+    this.user = data
+    console.log(this.user)
+      // Ahora hacer un INSERT INTO a la base de datos
+    this.loadUser()
+
+  })
+    
   }
+
+  loadUser(){
+    this.http.get(`http://localhost:3000/jugadores/${this.user.email}`).subscribe((response: any) => {
+      console.log(response)
+      this.usuario_cargado = response
+    });
+  }
+
+
+
 
   enviarDinero() {
 
@@ -66,6 +94,9 @@ export class BlackJackPage implements OnInit {
   } if (this.apuesta == false) {
 
   }
+
+  console.log("dinero ", this.dinero)
+
   }
 
 
@@ -135,13 +166,13 @@ console.log("Baraja jugador", this.mano_jugador)
 
       // Aquí si el número de las cartas de croupier es menos de 17, se envia otra carta a la array del croupier
       // Aquí va un while
-      if (this.suma_mano_croupier < 17){
-        console.log("SE ESTA EJECUTANDO EL WHILE DE REPARTIR CROUPIER")
-        console.log("antes de repartir", this.mano_croupier)
-        this.repartirCarta(this.mano_croupier)
-        console.log("después de repartir", this.mano_croupier)
-        this.suma_mano_croupier = this.suamrMano(this.mano_croupier, "croupier", false)
-      }
+      while (this.suma_mano_croupier < 17) {
+        console.log("SE ESTA EJECUTANDO EL WHILE DE REPARTIR CROUPIER");
+        console.log("antes de repartir", this.mano_croupier);
+        this.repartirCarta(this.mano_croupier);
+        console.log("después de repartir", this.mano_croupier);
+        this.suma_mano_croupier = this.suamrMano(this.mano_croupier, "croupier", false);
+    }
 
       console.log(`suma mano JUGADOR = ${this.suma_mano_jugador}`)
       console.log(`suma mano CROUPIER = ${this.suma_mano_croupier}`)
@@ -150,9 +181,11 @@ console.log("Baraja jugador", this.mano_jugador)
       if (this.suma_mano_croupier > 21){
         console.log("Gana Jugador")
         this.has_ganado = true
+        this.money = this.dinero * 2
       } else if(this.suma_mano_jugador > this.suma_mano_croupier){
         console.log("Gana Jugador")
         this.has_ganado = true
+        this.money = this.dinero * 2 + this.money
       } else if (this.suma_mano_jugador < this.suma_mano_croupier){
         console.log("Pierde Jugador")
         this.has_perdido = true
