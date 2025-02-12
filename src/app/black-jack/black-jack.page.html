@@ -71,11 +71,11 @@
             }
         </ion-col>
             
-
+    <!-- @if(is_money_load = true){ -->
         <ion-col>
-          <p>{{money}}€</p>
+          <p>{{usuario_cargado[0]?.dinero}}€</p>
         </ion-col>
-
+    <!-- } -->
       </ion-row>
 
   </ion-grid>
@@ -178,13 +178,12 @@
       </ion-col>
 
       <ion-col>
-        
+        <!-- <p>{{ suma_mano_jugador }}</p> -->
       </ion-col>
 
     </ion-row>
 
 </ion-grid>
-
 
 
 

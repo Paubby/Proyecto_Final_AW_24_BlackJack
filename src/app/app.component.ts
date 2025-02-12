@@ -4,13 +4,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 // import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import * as icons from 'ionicons/icons';
-import { IonicModule } from '@ionic/angular';
+import { IonContent, IonHeader, IonToolbar, IonTitle,
+  IonList, IonIcon, IonMenu, IonLabel, IonRouterOutlet,
+ IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow  } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  imports: [IonicModule, RouterLink, RouterLinkActive],
+  imports: [IonButton, IonCol, IonGrid, IonRow, IonContent, IonHeader, IonToolbar, IonTitle, IonList, IonIcon, IonMenu, IonLabel, IonRouterOutlet, IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, RouterLink, RouterLinkActive],
 })
 export class AppComponent {
   public appPages = [

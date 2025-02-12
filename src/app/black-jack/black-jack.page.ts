@@ -2,12 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonicModule } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { HttpClient } from "@angular/common/http"
 import { AuthService } from '@auth0/auth0-angular';
+import { AlertController } from '@ionic/angular';
+import { IonContent, IonHeader, IonToolbar, IonTitle,
+  IonList, IonIcon, IonMenu, IonLabel, IonRouterOutlet,
+ IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow } from '@ionic/angular/standalone';
+
 
 
 
@@ -18,7 +22,7 @@ import {baraja} from '../../assets/baraja';
   templateUrl: './black-jack.page.html',
   styleUrls: ['./black-jack.page.scss'],
   standalone: true,
-  imports: [RouterLink, IonicModule, CommonModule, IonicModule, FormsModule]
+  imports: [IonRow, IonCol, IonGrid, IonButton, IonContent, IonHeader, IonToolbar, IonTitle, IonList, IonIcon, IonMenu, IonLabel, IonRouterOutlet, IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, RouterLink, CommonModule, FormsModule]
 })
 export class BlackJackPage implements OnInit {
 
@@ -26,7 +30,7 @@ export class BlackJackPage implements OnInit {
   public der!: number
 
   public dinero!: any;
-  public money: number = 1000
+  public money: any;
 
   public apuestas: number = this.dinero
 
@@ -35,7 +39,7 @@ export class BlackJackPage implements OnInit {
   public parar_de_pedir: boolean = true
   public has_perdido: boolean = false
   public has_ganado: boolean = false
-
+  public is_money_load: boolean = false
   public el_jugador_pasado: boolean = false
   public el_croupier_pasado: boolean = false
 
@@ -44,7 +48,8 @@ export class BlackJackPage implements OnInit {
 
   public user: any
 
-  public baraja_principal: any = []
+  public baraja_principal: any = [
+  ]
 
   public mano_croupier: any = [
   ]
@@ -55,9 +60,10 @@ export class BlackJackPage implements OnInit {
   public usuario_cargado: any
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public auth: AuthService) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public auth: AuthService, private alertController: AlertController) { }
 
   ngOnInit() {
+
     this.dinero = this.route.snapshot.params
     console.log(this.dinero)
     console.log(baraja)
@@ -71,6 +77,15 @@ export class BlackJackPage implements OnInit {
     this.loadUser()
 
   })
+
+  this.http.get(`http://localhost:3000/jugadores/${this.user.email}`).subscribe((response: any) => {
+
+    this.money = response.dinero
+
+    console.log(this.money)
+    console.log(this.user.email)
+    console.log(this.user.name) 
+  });
     
   }
 
@@ -78,6 +93,7 @@ export class BlackJackPage implements OnInit {
     this.http.get(`http://localhost:3000/jugadores/${this.user.email}`).subscribe((response: any) => {
       console.log(response)
       this.usuario_cargado = response
+      this.is_money_load = true 
     });
   }
 
@@ -85,22 +101,40 @@ export class BlackJackPage implements OnInit {
 
 
   enviarDinero() {
-
-    if (this.apuesta == true){
+console.log(this.apuesta)
+    if (this.dinero <= this.money && this.apuesta == true){
     console.log(this.dinero)
     this.money = this.money - this.dinero
     this.apuesta = false
+  } else (this.apuesta == false || this.dinero > this.money) 
 
-  } if (this.apuesta == false) {
+  // if (this.money <= 1000){
 
-  }
-
+  // }
+  console.log(this.apuesta)
   console.log("dinero ", this.dinero)
 
   }
 
+  ganancia(){
+    this.money = this.dinero * 2 
 
-  empezar() {
+    let new_user = {
+      email: this.user.email,
+      money: this.user.dinero
+    }
+
+    this.http.post(`http://localhost:3000/dinero`, new_user ).subscribe((response) => {
+      console.log(response);
+    });
+
+  }
+
+
+  async empezar() {
+    console.log(' El dinero que tienes ', this.money)
+
+
     console.log(`repartiendo primeras manos`)
     this.repartirCarta(this.mano_croupier)
     this.repartirCarta(this.mano_croupier)
@@ -108,6 +142,16 @@ export class BlackJackPage implements OnInit {
     this.repartirCarta(this.mano_jugador)
     this.repartirCarta(this.mano_jugador)
     this.pri_empezar = false
+
+    const alert = await this.alertController.create({
+      header: 'APUESTE AHORA',
+      subHeader: 'Si tiene que apostar porfavor',
+      message: 'Si tiene que apostar porfavor apueste ahora, grácias.',
+      buttons: ['Okay']
+    });
+
+   await alert.present();
+
   }
 
   repartirCarta(baraja_destino: any[]){
@@ -181,11 +225,13 @@ console.log("Baraja jugador", this.mano_jugador)
       if (this.suma_mano_croupier > 21){
         console.log("Gana Jugador")
         this.has_ganado = true
-        this.money = this.dinero * 2
+        // this.money = this.dinero * 2
+        this.ganancia()
       } else if(this.suma_mano_jugador > this.suma_mano_croupier){
         console.log("Gana Jugador")
         this.has_ganado = true
-        this.money = this.dinero * 2 + this.money
+        // this.money = this.dinero * 2 + this.money
+        this.ganancia()
       } else if (this.suma_mano_jugador < this.suma_mano_croupier){
         console.log("Pierde Jugador")
         this.has_perdido = true
