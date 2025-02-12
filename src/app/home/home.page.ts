@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
   constructor(private http: HttpClient, private router: Router, public auth: AuthService) { }
 
 public user: any;
-
+public host: string = 'https://back-trabajo-final.onrender.com'
 
   ngOnInit() {
     // Cargar info desde auth
@@ -44,7 +44,7 @@ public user: any;
 
 
   loadUser(){
-    this.http.get(`http://localhost:3000/jugadores/${this.user.email}`).subscribe((response: any) => {
+    this.http.get(`${this.host}/jugadores/${this.user.email}`).subscribe((response: any) => {
       console.log(response)
       console.log(this.user.email)
       console.log(this.user.name)
@@ -63,7 +63,7 @@ public user: any;
       money: this.user.dinero
     }
 
-    this.http.post('http://localhost:3000/crear', new_user).subscribe((response) => {
+    this.http.post(`${this.host}/crear`, new_user).subscribe((response) => {
       console.log(response);
       console.log(new_user)
       console.log(new_user.money)

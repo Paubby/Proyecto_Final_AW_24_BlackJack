@@ -26,6 +26,9 @@ import {baraja} from '../../assets/baraja';
 })
 export class BlackJackPage implements OnInit {
 
+
+  public host: string = 'https://back-trabajo-final.onrender.com'
+
   public vic!: number
   public der!: number
 
@@ -78,7 +81,7 @@ export class BlackJackPage implements OnInit {
 
   })
 
-  this.http.get(`http://localhost:3000/jugadores/${this.user.email}`).subscribe((response: any) => {
+  this.http.get(`${this.host}/jugadores/${this.user.email}`).subscribe((response: any) => {
 
     this.money = response.dinero
 
@@ -90,7 +93,7 @@ export class BlackJackPage implements OnInit {
   }
 
   loadUser(){
-    this.http.get(`http://localhost:3000/jugadores/${this.user.email}`).subscribe((response: any) => {
+    this.http.get(`${this.host}/jugadores/${this.user.email}`).subscribe((response: any) => {
       console.log(response)
       this.usuario_cargado = response
       this.is_money_load = true 
@@ -124,7 +127,7 @@ console.log(this.apuesta)
       money: this.user.dinero
     }
 
-    this.http.post(`http://localhost:3000/dinero`, new_user ).subscribe((response) => {
+    this.http.post(`${this.host}/dinero`, new_user ).subscribe((response) => {
       console.log(response);
     });
 
@@ -280,3 +283,7 @@ console.log("Baraja jugador", this.mano_jugador)
     }
 
 }
+
+
+// del ranking
+
