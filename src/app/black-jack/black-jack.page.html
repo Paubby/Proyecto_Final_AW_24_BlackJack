@@ -71,11 +71,11 @@
             }
         </ion-col>
             
-    <!-- @if(is_money_load = true){ -->
+    @if(is_money_load == true){
         <ion-col>
           <p>{{usuario_cargado[0]?.dinero}}€</p>
         </ion-col>
-    <!-- } -->
+    }
       </ion-row>
 
   </ion-grid>
@@ -86,17 +86,17 @@
     @if(has_perdido == false){
   <ion-grid>
     <ion-row>
+      
     <ion-col>
       <h1>Black Jack</h1>
     </ion-col>
-
-
+<!-- 
     <ion-col>
 
       <p id="apuestas">{{apuestas}}</p>
       <img id="fichas" src="" alt="">
 
-    </ion-col>
+    </ion-col> -->
 
     <ion-row>
         @if(parar_de_pedir == true){
@@ -106,12 +106,12 @@
           }
 
     <ion-col>
-      <ion-input [(ngModel)]="dinero" label="Cuanto apuestas" type="number"></ion-input> 
+      <ion-input [(ngModel)]="apuestas" name="apuestas" label="Cuanto apuestas" type="number"></ion-input> 
     </ion-col>
 
 
       <ion-col>
-        <ion-button [disabled]="!apuesta" (click)="enviarDinero()" id="aceptar">
+        <ion-button [disabled]="!apuesta" (click)="enviarDinero()" color="danger" id="aceptar">
           <ion-icon slot="icon-only" name="checkmark"></ion-icon>
         </ion-button> 
       </ion-col>

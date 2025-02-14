@@ -2,10 +2,25 @@
 <ion-content [fullscreen]="true">
 
   @if(auth.isAuthenticated$ | async ){
-  <ion-button (click)="login()">Log in</ion-button>
+  <ion-button (click)="login()" color="success">Log in</ion-button>
 }
 
-  <ion-button (click)="logout()">Log out</ion-button>
+  <ion-button (click)="logout()" color="danger">Log out</ion-button>
+  
+   
+  <ion-grid>
+    <ion-row>
+  
+      <ion-col>
+        <img src="../../assets/black jack cartas de muestra.png" id="baraja_cartas_muestra">
+      </ion-col>
+  
+      <ion-col>
+        <img src="../../assets/man-dealer.png" id="groupier">
+      </ion-col>
+  
+    </ion-row>
+  </ion-grid>
   
 
 </ion-content>

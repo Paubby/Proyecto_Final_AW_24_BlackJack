@@ -1,8 +1,10 @@
 
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 // import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
+import { AuthService } from '@auth0/auth0-angular';
 import * as icons from 'ionicons/icons';
 import { IonContent, IonHeader, IonToolbar, IonTitle,
   IonList, IonIcon, IonMenu, IonLabel, IonRouterOutlet,
@@ -21,7 +23,15 @@ export class AppComponent {
     { title: 'Black Jack', url: '/black-jack', icon: 'cash' },
     { title: 'Ranking', url: '/ranking', icon: 'bar-chart' },
   ];
-  constructor() {
+  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {
     addIcons(icons);
+  }
+
+  logOut(){
+    this.auth.logout({ 
+      logoutParams: {
+        returnTo: this.document.location.origin 
+      }
+    });
   }
 }

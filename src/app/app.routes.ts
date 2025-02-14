@@ -18,12 +18,12 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
+  },
+  {
     path: 'ranking',
     loadComponent: () => import('./ranking/ranking.page').then( m => m.RankingPage),
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'login',
-    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
   },
 ];

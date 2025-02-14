@@ -1,5 +1,8 @@
 
 <ion-content [fullscreen]="true" id="fondo">
+
+  <link rel="manifest" href="assets/manifest.webmanifest">
+
   <ion-grid>
   
     <ion-col>
@@ -11,7 +14,7 @@
       <ion-grid id="start">
         <ion-col>
         
-          <ion-button size="large" color="danger" id="comenzar" (click)="irAlJuego()">START</ion-button>
+          <ion-button size="large" color="danger" id="comenzar" (click)="irAlJuego()" name="comenzar">START</ion-button>
   
         </ion-col>
   
