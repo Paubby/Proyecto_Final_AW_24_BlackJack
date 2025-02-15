@@ -12,10 +12,7 @@ import { IonContent, IonHeader, IonToolbar, IonTitle,
   IonList, IonIcon, IonMenu, IonLabel, IonRouterOutlet,
  IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow, IonInput } from '@ionic/angular/standalone';
 
-
-
-
-import {baraja} from '../../assets/baraja';
+import { baraja } from '../../assets/baraja';
 
 @Component({
   selector: 'app-black-jack',
@@ -298,6 +295,11 @@ console.log("Baraja jugador", this.mano_jugador)
       }
     }
 
+
+
+    reload(){
+      location.reload()
+    }
 }
 
 

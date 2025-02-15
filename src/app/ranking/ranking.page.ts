@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import {InfiniteScrollCustomEvent} from '@ionic/angular/standalone';
+import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import { IonContent, IonHeader, IonToolbar, IonTitle,
   IonList, IonIcon, IonMenu, IonLabel, IonRouterOutlet,
- IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow } from '@ionic/angular/standalone';
+ IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow, IonRouterLink } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-ranking',
