@@ -21,20 +21,47 @@
       </ion-grid>
   
   </ion-grid>
-  
-  <ion-grid>
-    <ion-row>
-  
-      <ion-col>
-        <img src="../../assets/black jack cartas de muestra.png" id="baraja_cartas_muestra">
-      </ion-col>
-  
-      <ion-col>
-        <img src="../../assets/man-dealer.png" id="groupier">
-      </ion-col>
-  
-    </ion-row>
-  </ion-grid>
-  
+  <ion-grid id="id_grid_ranking">
+
+    <h2>RANKING</h2>
+
+</ion-grid>
+
+
+<ion-grid>
+
+  <ion-row>
+    <ion-col>
+      <p id="nombre">NOMBRE</p>
+    </ion-col>
+
+    <ion-col>
+      <p>DINERO</p>
+    </ion-col>
+  </ion-row>
+
+<ion-row *ngFor="let player of topPlayers; let i = index">
+
+    <!-- <ion-col>
+        <img class="posicion" src="../../assets/primero.png" alt="">
+    </ion-col> -->
+
+    <ion-col>
+      <img class="posicion" src="../../assets/{{ i === 0 ? 'primero' : i === 1 ? 'segundo' : 'tercero' }}.png" alt="">
+    </ion-col>
+
+    <ion-col>
+      <p class="info_nom">{{player.email}}</p>
+    </ion-col>
+
+    <ion-col>
+      <p class="info">{{player.dinero}} €</p>
+    </ion-col>
+
+  </ion-row>
+
+
+</ion-grid>
+
   </ion-content>
   

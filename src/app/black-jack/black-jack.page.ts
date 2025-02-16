@@ -47,6 +47,7 @@ export class BlackJackPage implements OnInit {
 
   public suma_mano_jugador: number = 0
   public suma_mano_croupier: number = 0
+  public ganancia_del_juego: number = 0
 
   public user: any
 
@@ -107,9 +108,11 @@ export class BlackJackPage implements OnInit {
 
   enviarDinero() {
 console.log("antes ", this.apuesta)
+
     if (this.apuestas <= this.usuario_cargado[0].dinero && this.apuesta == true){
     console.log(this.dinero)
     this.usuario_cargado[0].dinero = this.usuario_cargado[0].dinero - this.apuestas
+    console.log("dinero actual ", this.usuario_cargado[0].dinero)
     this.apuesta = false
   } else (this.apuesta == false || this.apuestas > this.usuario_cargado[0].dinero) 
 
@@ -130,19 +133,20 @@ console.log("antes ", this.apuesta)
   //   sonido.play().catch(error => console.error("Error al reproducir el sonido:", error));
   // }
 
-
+// FALLO: pq Suma correctamente el valor, sumando el nuevo DINERO ACTUAL con Lo que hemos apostado * 2, ¡ PERO DESPUÉS VUELVE A SUMAR EL dinero actual !
   ganancia(){
-    this.usuario_cargado[0].dinero = this.apuestas * 2 
+    this.ganancia_del_juego = this.apuestas * 2 
+    console.log("tu GANANCIA ", this.ganancia_del_juego)
     let new_user = {
       email: this.user.email,
       // Problema en esta línea, pone => money: underfind
-      money: this.usuario_cargado[0].dinero
+      money: this.ganancia_del_juego
     }
 
     this.http.post(`${this.host}/dinero`, new_user ).subscribe((response) => {
       console.log(response);
     });
-
+    console.log(this.ganancia_del_juego)
     console.log(new_user)
   }
 

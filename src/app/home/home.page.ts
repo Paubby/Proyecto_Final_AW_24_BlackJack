@@ -31,7 +31,8 @@ public user: any;
 public host: string = 'https://back-trabajo-final.onrender.com'
 public hostlocal: string = 'http://localhost:3000'
 
-
+public topPlayers: any = [
+];
 
   ngOnInit() {
     // Cargar info desde auth
@@ -43,6 +44,7 @@ public hostlocal: string = 'http://localhost:3000'
 
     })
     
+    this.positions()
     
   }
 
@@ -80,6 +82,22 @@ createUser() {
     }
   });
 }
+
+positions() {
+  console.log("Llamando al endpoint /ordenar");
+
+  this.http.get(`${this.host}/ordenar`).subscribe({
+    next: (response: any) => {
+      console.log("Respuesta recibida:", response);
+      this.topPlayers = response
+      console.log("topPlayers =", this.topPlayers)
+    },
+    error: (error) => {
+      console.error("Error en la petición:", error);
+    }
+  });
+}
+
 
 
 irAlJuego(){
