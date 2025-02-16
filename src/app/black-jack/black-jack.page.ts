@@ -61,6 +61,8 @@ export class BlackJackPage implements OnInit {
 
   public usuario_cargado: any
 
+  private soundGanar = new Audio('../../assets/tralalero-tralala');
+  private soundLose = new Audio('../../assets/vaca-saturnita');
 
   constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public auth: AuthService, private alertController: AlertController) { }
 
@@ -117,29 +119,31 @@ console.log("antes ", this.apuesta)
 
   }
 
-  soundLose(){
-    const sonido = new Audio('../../assets/vaca-saturnita'); // Ruta del archivo de audio
-    sonido.play().catch(error => console.error("Error al reproducir el sonido:", error));
-  }
+  // soundLose(){
+  //   const sonido = new Audio('../../assets/vaca-saturnita'); // Ruta del archivo de audio
+  //   sonido.play().catch(error => console.error("Error al reproducir el sonido:", error));
+  // }
 
 
-  soundGanar(){
-    const sonido = new Audio('../../assets/tralalero-tralala'); // Ruta del archivo de audio
-    sonido.play().catch(error => console.error("Error al reproducir el sonido:", error));
-  }
+  // soundGanar(){
+  //   const sonido = new Audio('../../assets/tralalero-tralala'); // Ruta del archivo de audio
+  //   sonido.play().catch(error => console.error("Error al reproducir el sonido:", error));
+  // }
 
 
   ganancia(){
     this.usuario_cargado[0].dinero = this.apuestas * 2 
     let new_user = {
       email: this.user.email,
-      money: this.user.dinero
+      // Problema en esta línea, pone => money: underfind
+      money: this.usuario_cargado[0].dinero
     }
 
     this.http.post(`${this.host}/dinero`, new_user ).subscribe((response) => {
       console.log(response);
     });
 
+    console.log(new_user)
   }
 
 
@@ -209,6 +213,7 @@ console.log("Baraja jugador", this.mano_jugador)
       } else if (this.suma_mano_jugador > 21){
         console.log("pierde jugador")
         this.has_perdido = true
+        this.soundLose.play()
       }
       
 
@@ -239,21 +244,23 @@ console.log("Baraja jugador", this.mano_jugador)
       if (this.suma_mano_croupier > 21){
         console.log("Gana Jugador")
         this.has_ganado = true
-        this.soundGanar()
+        this.soundGanar.play()
         // this.money = this.dinero * 2
         this.ganancia()
       } else if(this.suma_mano_jugador > this.suma_mano_croupier){
         console.log("Gana Jugador")
-        this.soundGanar()
+        this.soundGanar.play()
         this.has_ganado = true
         // this.money = this.dinero * 2 + this.money
         this.ganancia()
       } else if (this.suma_mano_jugador < this.suma_mano_croupier){
         console.log("Pierde Jugador")
         this.has_perdido = true
+        this.soundLose.play()
       }  else if (this.suma_mano_jugador == this.suma_mano_croupier){
         console.log("Habeis empatado, Pierde Jugador")
         this.has_perdido = true
+        this.soundLose.play()
       } 
 
       console.log("mano croupier 2")
