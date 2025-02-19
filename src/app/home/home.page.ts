@@ -5,11 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from "@angular/common/http"
 import { IonContent, IonHeader, IonToolbar, IonTitle,
   IonList, IonIcon, IonMenu, IonLabel, IonRouterOutlet,
- IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow} from '@ionic/angular/standalone';import { RouterLink } from '@angular/router';
-import { Router } from '@angular/router';
+ IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow} from '@ionic/angular/standalone';
+ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { forwardRef } from '@angular/core';
 // import { response } from 'express';
 
 
