@@ -43,6 +43,9 @@ export class BlackJackPage implements OnInit {
   public el_croupier_pasado: boolean = false
   public is_money_load: boolean = false
 
+  private soundGanar = new Audio('/assets/tralalero-tralala.mp3')
+  private soundLose = new Audio('/assets/vaca-saturnita.m4a')
+
 
   public suma_mano_jugador: number = 0
   public suma_mano_croupier: number = 0
@@ -137,16 +140,6 @@ export class BlackJackPage implements OnInit {
 
   }
 
-  // soundLose(){
-  //   const sonido = new Audio('../../assets/vaca-saturnita'); // Ruta del archivo de audio
-  //   sonido.play().catch(error => console.error("Error al reproducir el sonido:", error));
-  // }
-
-
-  // soundGanar(){
-  //   const sonido = new Audio('../../assets/tralalero-tralala'); // Ruta del archivo de audio
-  //   sonido.play().catch(error => console.error("Error al reproducir el sonido:", error));
-  // }
 
 // FALLO (MUY alomejor solucionado): Por lo que veo cuando el número apostado es pequeño se suma dos vezes, se mutiplica, se suma y se vuelve a sumar
   ganancia(){
@@ -200,17 +193,6 @@ export class BlackJackPage implements OnInit {
     this.repartirCarta(this.mano_jugador)
     this.pri_empezar = false
 
-
-    // Alert que no se usa, almenos por ahora
-  //   const alert = await this.alertController.create({
-  //     header: 'APUESTE AHORA',
-  //     subHeader: 'Si tiene que apostar porfavor',
-  //     message: 'Si tiene que apostar porfavor apueste ahora, grácias.',
-  //     buttons: ['Okay']
-  //   });
-
-  //  await alert.present();
-
   }
 
   repartirCarta(baraja_destino: any[]){
@@ -255,6 +237,7 @@ console.log("Baraja jugador", this.mano_jugador)
         console.log("pierde jugador")
         this.has_perdido = true
         this.perder()
+        this.soundLose.play()
       }
       
 
@@ -287,19 +270,24 @@ console.log("Baraja jugador", this.mano_jugador)
         this.has_ganado = true
         // this.money = this.dinero * 2
         this.ganancia()
+        this.soundGanar.play()
       } else if(this.suma_mano_jugador > this.suma_mano_croupier){
         console.log("Gana Jugador")
         this.has_ganado = true
         // this.money = this.dinero * 2 + this.money
         this.ganancia()
+        this.soundGanar.play()
+
       } else if (this.suma_mano_jugador < this.suma_mano_croupier){
         console.log("Pierde Jugador")
         this.has_perdido = true
         this.perder()
+        this.soundLose.play()
       }  else if (this.suma_mano_jugador == this.suma_mano_croupier){
         console.log("Habeis empatado, Pierde Jugador")
         this.has_perdido = true
         this.perder()
+        this.soundLose.play()
       } 
 
       console.log("mano croupier 2")
@@ -347,5 +335,3 @@ console.log("Baraja jugador", this.mano_jugador)
       location.reload()
     }
 }
-
-
