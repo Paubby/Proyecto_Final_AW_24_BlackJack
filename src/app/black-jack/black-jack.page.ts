@@ -13,6 +13,7 @@ import { IonContent, IonHeader, IonToolbar, IonTitle,
  IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow, IonInput } from '@ionic/angular/standalone';
 
 import { baraja } from '../../assets/baraja';
+import { response } from 'express';
 
 @Component({
   selector: 'app-black-jack',
@@ -62,9 +63,6 @@ export class BlackJackPage implements OnInit {
 
   public usuario_cargado: any
 
-  private soundGanar = new Audio('../../assets/tralalero-tralala');
-  private soundLose = new Audio('../../assets/vaca-saturnita');
-
   constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public auth: AuthService, private alertController: AlertController) { }
 
   ngOnInit() {
@@ -105,16 +103,35 @@ export class BlackJackPage implements OnInit {
 
 
 
+// EL PROBLEMA ES QUE SI NO LE DAS AL BOTON QUE ESTA DESHABILITADO NO SABE QUE ES apuestas
+  async enviarDinero() {
+  console.log("antes ", this.apuesta)
+  console.log("antes ", this.apuestas)
 
-  enviarDinero() {
-console.log("antes ", this.apuesta)
+  if (this.apuestas > this.usuario_cargado[0].dinero) {
+    console.log("NO tienes suficiente dinero para apostar");
+
+    // Crear una alerta en Ionic
+      const alert = await this.alertController.create({
+      header: "Apuesta inválida",
+      message: "No tienes suficiente dinero para hacer esta apuesta",
+      buttons: ["OK"]
+    });
+    await alert.present();
+
+    return; // Detiene la ejecución
+  }
 
     if (this.apuestas <= this.usuario_cargado[0].dinero && this.apuesta == true){
     console.log(this.dinero)
     this.usuario_cargado[0].dinero = this.usuario_cargado[0].dinero - this.apuestas
     console.log("dinero actual ", this.usuario_cargado[0].dinero)
     this.apuesta = false
-  } else (this.apuesta == false || this.apuestas > this.usuario_cargado[0].dinero) 
+  } /* else if(this.apuesta == false || this.apuestas > this.usuario_cargado[0].dinero){
+    // Aquí poner que no pueda apostar, pq no sale nada pero estas apostando
+    console.log("No tienes suficiente dinero para apostar.");
+    return;
+  }*/
 
   console.log("después ", this.apuesta)
   console.log("dinero ", this.usuario_cargado[0].dinero)
@@ -133,7 +150,7 @@ console.log("antes ", this.apuesta)
   //   sonido.play().catch(error => console.error("Error al reproducir el sonido:", error));
   // }
 
-// FALLO: pq Suma correctamente el valor, sumando el nuevo DINERO ACTUAL con Lo que hemos apostado * 2, ¡ PERO DESPUÉS VUELVE A SUMAR EL dinero actual !
+// FALLO (MUY alomejor solucionado): Por lo que veo cuando el número apostado es pequeño se suma dos vezes, se mutiplica, se suma y se vuelve a sumar
   ganancia(){
     this.ganancia_del_juego = this.apuestas * 2 
     console.log("tu GANANCIA ", this.ganancia_del_juego)
@@ -148,6 +165,28 @@ console.log("antes ", this.apuesta)
     });
     console.log(this.ganancia_del_juego)
     console.log(new_user)
+  }
+
+  perder(){
+
+    console.log("Usuario cargado:", this.usuario_cargado);
+    console.log("Dinero actual:", this.usuario_cargado[0]?.dinero);
+
+    let dinero_perdido = this.usuario_cargado[0]?.dinero + this.apuestas
+
+    let new_user = {
+      email: this.user.email,
+      // Problema en esta línea, pone => money: underfind
+      money: dinero_perdido
+    }
+
+    this.http.post(`${this.host}/perder`, new_user ).subscribe((response) => {
+      console.log(response);
+    });
+
+    console.log(`respuesta ${response}`)
+    console.log(`el dinero ahora es ${new_user.money}`)
+    console.log("Datos enviados al backend:", new_user);
   }
 
 
@@ -217,7 +256,7 @@ console.log("Baraja jugador", this.mano_jugador)
       } else if (this.suma_mano_jugador > 21){
         console.log("pierde jugador")
         this.has_perdido = true
-        this.soundLose.play()
+        this.perder()
       }
       
 
@@ -248,23 +287,21 @@ console.log("Baraja jugador", this.mano_jugador)
       if (this.suma_mano_croupier > 21){
         console.log("Gana Jugador")
         this.has_ganado = true
-        this.soundGanar.play()
         // this.money = this.dinero * 2
         this.ganancia()
       } else if(this.suma_mano_jugador > this.suma_mano_croupier){
         console.log("Gana Jugador")
-        this.soundGanar.play()
         this.has_ganado = true
         // this.money = this.dinero * 2 + this.money
         this.ganancia()
       } else if (this.suma_mano_jugador < this.suma_mano_croupier){
         console.log("Pierde Jugador")
         this.has_perdido = true
-        this.soundLose.play()
+        this.perder()
       }  else if (this.suma_mano_jugador == this.suma_mano_croupier){
         console.log("Habeis empatado, Pierde Jugador")
         this.has_perdido = true
-        this.soundLose.play()
+        this.perder()
       } 
 
       console.log("mano croupier 2")
