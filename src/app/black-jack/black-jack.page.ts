@@ -129,7 +129,7 @@ export class BlackJackPage implements OnInit {
     // Aquí poner que no pueda apostar, pq no sale nada pero estas apostando
     console.log("No tienes suficiente dinero para apostar.");
     return;
-  }*/
+  } */
 
   console.log("después ", this.apuesta)
   console.log("dinero ", this.usuario_cargado[0].dinero)
@@ -170,7 +170,7 @@ export class BlackJackPage implements OnInit {
     console.log("Usuario cargado:", this.usuario_cargado);
     console.log("Dinero actual:", this.usuario_cargado[0]?.dinero);
 
-    let dinero_perdido = this.usuario_cargado[0]?.dinero + this.apuestas
+    let dinero_perdido = this.apuestas
 
     let new_user = {
       email: this.user.email,
