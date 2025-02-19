@@ -11,7 +11,7 @@ import { IonContent, IonHeader, IonToolbar, IonTitle,
  IonMenuButton, IonMenuToggle, IonListHeader, IonButtons, IonButton, IonCol, IonGrid, IonRow, IonInput } from '@ionic/angular/standalone';
 
 import { baraja } from '../../assets/baraja';
-import { response } from 'express';
+
 
 @Component({
   selector: 'app-black-jack',
@@ -182,7 +182,7 @@ export class BlackJackPage implements OnInit {
       console.log(response);
     });
 
-    console.log(`respuesta ${response}`)
+    console.log(`respuesta `)
     console.log(`el dinero ahora es ${new_user.money}`)
     console.log("Datos enviados al backend:", new_user);
   }
