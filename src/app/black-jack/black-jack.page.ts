@@ -243,6 +243,8 @@ console.log("Baraja jugador", this.mano_jugador)
 
     }   
   
+
+    
     juegoCroupier(){
       
       // Sumar valor de la mano Croupier
